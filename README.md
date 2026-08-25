@@ -38,11 +38,11 @@ is exactly why an appraisal that returns a single number without a range is hard
 **The number I would actually ship is the interval.** A band built from the weighted spread
 of the comparables covers **93.7% of held-out prices against a nominal 90%**, so it is
 slightly conservative and roughly calibrated. A seller can act on "somewhere in this range,
-and here are the six trucks it is based on." Nobody can act on a wrong point estimate.
+and here are the ten trucks it is based on." Nobody can act on a wrong point estimate.
 
 **I published where my own model loses too.** Gradient-boosted trees beat my comparables
 model on MAE and RMSE. I kept comparables as the headline anyway, because a seller can see
-the six trucks behind the number and cannot see inside a tree ensemble, and for an appraisal
+the ten trucks behind the number and cannot see inside a tree ensemble, and for an appraisal
 that is worth more than $2,400 of MAE.
 
 **What it is not, and this matters.** The target is **asking price on active listings, not
@@ -85,8 +85,8 @@ VIRTUAL_ENV=$PWD/.venv uv pip install numpy pandas scikit-learn tabulate
 .venv/bin/python backtest.py          # writes results/backtest.md
 ```
 
-`backtest.py` regenerates every number in `results/backtest.md` and in
-`../RESULTS.md`.
+`backtest.py` regenerates every number in `results/backtest.md`, including
+the headline table above.
 
 ## What the data is, and what it is not
 
