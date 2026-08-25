@@ -1,0 +1,21 @@
+apparatus-comps
+Copyright 2026 Laksh Goyal
+
+The code in this repository is licensed under the MIT License (see LICENSE).
+
+------------------------------------------------------------------------------
+Cached page snapshots
+
+data/raw/state_*.html and data/raw/sitemap-listings-0.xml are verbatim snapshots
+of public, server-rendered pages from shopgarage.com, fetched read-only on
+2026-08-14 under the guardrails documented in fetch.sh. That content is Garage's,
+not mine, and the MIT grant above does not extend to it. It is committed so the
+back-test reproduces offline against the exact bytes it was built from.
+
+data/dataset.csv is derived from those snapshots: every field is read out of each
+page's own __NEXT_DATA__ payload. Prices are ASKING prices on ACTIVE listings, not
+closed sale prices.
+
+If you are Garage and would prefer the snapshots not be redistributed, open an
+issue and I will remove them; build_dataset.py and the model do not depend on any
+particular listing.
