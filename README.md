@@ -51,6 +51,30 @@ agreement with what sellers ask, not with what buyers pay, and every number abov
 that. With real closed-sale data the whole thing re-runs unchanged and the numbers would
 mean considerably more.
 
+## The pipeline
+
+```mermaid
+flowchart LR
+  FETCH["fetch.sh<br/>read-only GETs, 1.2s apart<br/>robots.txt honoured"] --> RAW[("data/raw/<br/>40 state pages + sitemap")]
+  RAW --> BUILD["build_dataset.py<br/>reads each page's own __NEXT_DATA__"]
+  BUILD --> DS[("data/dataset.csv<br/>903 rows")]
+  DS --> FILT["filter: has type, model year,<br/>asking price >= $5,000"]
+  FILT --> EM["577 emergency-apparatus rows"]
+  EM --> SPLIT{"split by <lastmod> date,<br/>not randomly"}
+  SPLIT -->|"train, 403"| TUNE["tune.py<br/>inner train/validation split<br/>test set never touched"]
+  TUNE --> MODEL["comps.py<br/>k-nearest comparables, k=10"]
+  SPLIT -->|"test, 174"| BT["backtest.py"]
+  MODEL --> BT
+  BASE["baselines: GBT, median by<br/>type and decade, global median"] --> BT
+  BT --> OUT[("results/backtest.md")]
+
+  style SPLIT fill:#1f6feb,color:#fff
+```
+
+The time-based split is the load-bearing choice. A random split leaks future
+asking prices into the past and makes every model look better than it is; the
+README reports both so you can see the size of that gap.
+
 ## Run it
 
 ```bash
