@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>apparatus-comps - how wide the quote has to be</title>
+<meta name="description" content="A comparable-sales estimator for fire apparatus, back-tested. Half the estimates are off by more than 36%, and covering nine cases in ten takes a range nearly seven times wide.">
+<meta property="og:title" content="apparatus-comps">
+<meta property="og:description" content="Nobody in appraisal publishes an accuracy number, because the honest one is uncomfortable. Here it is.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="gut">
+  <div>
+    <div class="eyebrow">lgoyal6 / apparatus-comps</div>
+    <h1>apparatus&#8209;comps<span class="dot">.</span></h1>
+    <p class="thesis">
+      Fire engines and ambulances trade from five to seven figures, and the tools that
+      appraise them publish no accuracy figure. That is not unusual and it is not a
+      criticism. Almost nobody in appraisal publishes one.
+    </p>
+    <p class="thesis">
+      <strong>This is that number.</strong> A comparable-sales estimator, back-tested on a
+      time-based split, reported with the error bar it actually needs rather than the one
+      that would look better.
+    </p>
+  </div>
+  <dl class="facts">
+    <div class="fact"><dt>half the estimates</dt><dd>36% <small>off or worse</small></dd></div>
+    <div class="fact"><dt>land within 20%</dt><dd>30.5% <small>of the time</small></dd></div>
+    <div class="fact"><dt>to cover 9 in 10</dt><dd>6.8x <small>wide a range</small></dd></div>
+    <div class="fact"><dt>worst single miss</dt><dd>858% <small>and it is in the report</small></dd></div>
+  </dl>
+</header>
+
+<section class="gut">
+  <div class="eyebrow">Figure 1</div>
+  <h2>How wrong is it, exactly</h2>
+  <p class="lead">
+    Absolute percentage error on the held-out set, by percentile. The median is the number
+    an appraisal tool would quote if it quoted one. The right tail is the number that costs
+    someone a deal.
+  </p>
+
+  <div class="figure">
+    <div class="figcap">
+      <span id="cap-what">Loading</span>
+      <span id="cap-target"></span>
+    </div>
+    <div class="toolbar">
+      <span class="picklabel">Split</span>
+      <div class="pick" id="split" role="group" aria-label="Split"></div>
+      <div class="scrub">
+        <span class="picklabel">Percentile</span>
+        <input type="range" id="pct" min="0" max="7" value="2" step="1">
+      </div>
+    </div>
+    <canvas class="plot" id="plot" width="1200" height="360"></canvas>
+    <dl class="readout">
+      <div><dt>at this percentile</dt><dd id="r-pct">-</dd></div>
+      <div><dt>the estimate is off by</dt><dd id="r-ape">-</dd></div>
+      <div><dt>median error</dt><dd id="r-med">-</dd></div>
+      <div><dt>mean error</dt><dd id="r-mean">-</dd></div>
+    </dl>
+    <div class="banner" id="banner">Loading.</div>
+  </div>
+
+  <div class="split">
+    <div>
+      <h3>Why the mean and the median disagree</h3>
+      <p>
+        Mean error is <strong>60.7%</strong> and median error is <strong>36.0%</strong>.
+        The gap is entirely the right tail: the worst single prediction on the test set put
+        <strong>$95,786</strong> on a pumper asking <strong>$10,000</strong>. Quoting the
+        mean overstates the typical case, and quoting the median hides the case that
+        matters.
+      </p>
+      <p>
+        The time-based split is the primary one: it trains on older listings and tests on
+        newer, which is the order the world arrives in. Splitting the same data at random
+        cuts <em>mean</em> error sharply for all three fitted models, by 9 to 20 points,
+        and leaves <em>median</em> error slightly worse for two of them. It flatters the
+        tail, not the typical case, which is why both are on the toolbar.
+      </p>
+    </div>
+    <dl class="takeaway">
+      <dt>typical miss</dt>
+      <dd>36%.<small>Half of estimates are worse than this.</small></dd>
+      <dt>one in ten</dt>
+      <dd>Off by 127% or more.<small>And one in twenty by 197%.</small></dd>
+      <dt>beats the obvious baseline</dt>
+      <dd>By 11.5 points of median error.<small>Against a global median at 47.5%.</small></dd>
+    </dl>
+  </div>
+</section>
+
+<section class="gut">
+  <div class="eyebrow">Figure 2</div>
+  <h2>The error bar it actually needs</h2>
+  <p class="lead">
+    An estimate with a range attached is only useful if the range is honest. Nominal
+    coverage assumes the errors are log-normal. Actual coverage is measured on the
+    held-out set, and the width is what a seller would be shown.
+  </p>
+  <div class="figure">
+    <div class="figcap">
+      <span>measured on the held-out set</span>
+      <span>width is the ratio of the top of the range to the bottom</span>
+    </div>
+    <dl class="bands" id="bands"></dl>
+    <div class="banner alarm" id="band-banner"></div>
+  </div>
+
+  <div class="split">
+    <div>
+      <p>
+        <strong>The intervals are honest and they are enormous.</strong> Every band covers
+        more than its nominal rate, so the model is not overconfident. Covering nine cases
+        in ten takes a range whose top is <strong>6.8 times</strong> its bottom, which on a
+        $50,000 truck is roughly $19,000 to $130,000.
+      </p>
+      <p>
+        That is the real product question. A range that wide is close to useless to a
+        seller, and it is the correct answer given this data. Narrowing it needs closed
+        sale prices, which is the thing the whole exercise does not have.
+      </p>
+    </div>
+    <dl class="takeaway">
+      <dt>not overconfident</dt>
+      <dd>Every band over-covers.<small>68% nominal measured at 75.3%.</small></dd>
+      <dt>and barely usable</dt>
+      <dd>6.8x wide for 90%.<small>About $19k to $130k on a $50k truck.</small></dd>
+      <dt>what would fix it</dt>
+      <dd>Closed sale prices.<small>These are asking prices on live listings.</small></dd>
+    </dl>
+  </div>
+</section>
+
+<section class="gut">
+  <div class="eyebrow">Figure 3</div>
+  <h2>Where it is worst</h2>
+  <p class="lead">
+    Median error by slice, so a buyer can tell which quotes to distrust. Cheap vehicles are
+    the hard ones.
+  </p>
+  <div class="figure">
+    <div class="toolbar">
+      <span class="picklabel">Sliced by</span>
+      <div class="pick" id="slices" role="group" aria-label="Slice"></div>
+    </div>
+    <div class="grid-wrap"><table class="data" id="slice"></table></div>
+    <div class="banner" id="slice-banner"></div>
+  </div>
+  <div class="figure" style="margin-top:20px">
+    <div class="figcap"><span>the five worst single predictions</span><span>time-based test set</span></div>
+    <div class="grid-wrap"><table class="data" id="worst"></table></div>
+  </div>
+</section>
+
+<section class="gut">
+  <div class="eyebrow">Figure 4</div>
+  <h2>Where it loses</h2>
+  <ul class="map">
+    <li>
+      <b>The target is an asking price, not a sale.</b> Everything on this page inherits
+      that. A seller's asking price is what they hoped for, and the gap between hope and a
+      cheque is not measured here.
+      <span class="where">results/backtest.md</span>
+    </li>
+    <li>
+      <b>577 rows in scope, 174 in the test set.</b> Parsed from 40 cached page snapshots
+      spanning two months. Enough to separate a model from a global median, not enough to
+      put a tight interval on any single slice.
+      <span class="where">build_dataset.py</span>
+    </li>
+    <li>
+      <b>Gradient boosting beats the comps model on mean absolute error.</b> $29,916 against $32,342.
+      The comps model is kept because it can show a buyer which trucks it compared against,
+      which is a product decision rather than an accuracy one.
+      <span class="where">backtest.py</span>
+    </li>
+    <li>
+      <b>Cheap vehicles are the worst case and the common one.</b> Under $30,000 the median
+      error is 53.9%, against 30.1% above $81,800. The model is most wrong where the buyer
+      is least able to absorb it.
+      <span class="where">results/backtest.md</span>
+    </li>
+  </ul>
+</section>
+
+<footer class="gut">
+  <span>
+    <a href="https://github.com/lgoyal6/apparatus-comps">github.com/lgoyal6/apparatus-comps</a>
+    &middot; MIT
+  </span>
+  <span>
+    also: <a href="https://lgoyal6.github.io/flightrisk/">flightrisk</a>
+    &middot; <a href="https://lgoyal6.github.io/memharness/">memharness</a>
+    &middot; <a href="https://lgoyal6.github.io/pms-race/">pms-race</a>
+  </span>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
