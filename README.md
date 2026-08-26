@@ -8,6 +8,9 @@ paid services.
 
 ---
 
+**[See it: lgoyal6.github.io/apparatus-comps](https://lgoyal6.github.io/apparatus-comps/)** - the
+error distribution, and how wide the range has to be to actually cover nine cases in ten.
+
 ## The short version
 
 **What I noticed.** Garage runs an AI appraisal on fire apparatus and ambulances, equipment
