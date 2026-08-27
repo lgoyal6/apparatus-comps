@@ -1,3 +1,10 @@
+<a href="https://lgoyal6.github.io/apparatus-comps/">
+  <img alt="apparatus-comps - open the live demo" src="docs/og.png">
+</a>
+
+**[Open the live demo](https://lgoyal6.github.io/apparatus-comps/)** - The
+error distribution, and how wide the range has to be to actually cover nine cases in ten.
+
 # apparatus-comps
 
 A comparable-sales estimator for emergency vehicles, with a real back-test, so
@@ -7,9 +14,6 @@ Everything runs offline from cached page snapshots. No API keys, no network, no
 paid services.
 
 ---
-
-**[See it: lgoyal6.github.io/apparatus-comps](https://lgoyal6.github.io/apparatus-comps/)** - the
-error distribution, and how wide the range has to be to actually cover nine cases in ten.
 
 ## The short version
 
