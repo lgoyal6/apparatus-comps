@@ -120,7 +120,13 @@ def main() -> None:
             "target": "asking price on an active listing, not a closed sale",
         },
     }
+    # The page runs the estimator itself, in pyodide, so a reader can price a
+    # truck the model has never seen and read back the comparables it used.
+    # comps.py and the dataset are copied verbatim.
     OUT.mkdir(parents=True, exist_ok=True)
+    (OUT / "comps.py").write_text((ROOT / "comps.py").read_text())
+    (OUT / "dataset.csv").write_text((ROOT / "data/dataset.csv").read_text())
+
     path = OUT / "backtest.json"
     path.write_text(json.dumps(payload, indent=1) + "\n")
     print(f"{path.relative_to(ROOT)}  {path.stat().st_size / 1024:.1f} kB")
