@@ -20,6 +20,7 @@
 </nav>
 <nav class="tabs" aria-label="Sections">
     <a href="#sec-home">Home</a>
+    <a href="#sec-try">Try it</a>
     <a href="#sec-error">How wrong</a>
     <a href="#sec-band">Error bar</a>
     <a href="#sec-worst">Worst cases</a>
@@ -48,6 +49,71 @@
     <div class="fact"><dt>worst single miss</dt><dd>858% <small>and it is in the report</small></dd></div>
   </dl>
 </header>
+
+<section id="sec-try" class="gut">
+  <div class="eyebrow">Try it</div>
+  <h2>Price a truck and see what it compared against</h2>
+  <p class="lead">
+    Describe a fire engine or an ambulance. The repository's comps model runs in your tab,
+    against the same 903 cached listings the back-test used, and gives you a number, the
+    range it actually needs, and the ten trucks it reached that number from.
+  </p>
+
+  <div class="figure">
+    <div class="figcap">
+      <span id="est-engine">starting the engine</span>
+      <span id="est-note">comps.py and the dataset, unmodified</span>
+    </div>
+    <div class="truck-form">
+      <div class="row4">
+        <label>Type<select id="t-type"></select></label>
+        <label>Model year<input id="t-year" type="number" min="1970" max="2026" value="2009"></label>
+        <label>Mileage<input id="t-miles" type="number" min="0" step="1000" value="37000"></label>
+        <label>Region<select id="t-region"></select></label>
+      </div>
+      <div class="row4">
+        <label>Chassis<select id="t-chassis"></select></label>
+        <label>Body builder<select id="t-body"></select></label>
+        <label>Pump, gpm<input id="t-pump" type="number" min="0" step="250" placeholder="leave blank if none"></label>
+        <label>Tank, gallons<input id="t-tank" type="number" min="0" step="100" placeholder="leave blank if none"></label>
+      </div>
+    </div>
+
+    <dl class="readout">
+      <div><dt>the estimate</dt><dd id="e-point">&ndash;</dd></div>
+      <div><dt>range that covers 9 in 10</dt><dd id="e-band" class="small">&ndash;</dd></div>
+      <div><dt>how wide that is</dt><dd id="e-width">&ndash;</dd></div>
+      <div><dt>comparables used</dt><dd id="e-k">&ndash;</dd></div>
+    </dl>
+    <div class="grid-wrap"><table class="data" id="comps"></table></div>
+    <div class="banner" id="est-banner">Describe a truck.</div>
+  </div>
+
+  <div class="split">
+    <div>
+      <h3>Read the comparables, not the number</h3>
+      <p>
+        The estimate is a weighted average of those ten trucks in log space, and the range
+        comes from how much they disagree. <strong>When the ten are a mixed bag, the range
+        is enormous and the number means very little</strong>, which is the honest thing an
+        appraisal tool can tell you and the thing none of them do.
+      </p>
+      <p>
+        Ask it for something the set barely has, an aerial from the 1980s, and watch the
+        comparables stop resembling what you typed. That is the moment to distrust it, and
+        you can only see it because the comparables are on the page.
+      </p>
+    </div>
+    <dl class="takeaway">
+      <dt>the same model</dt>
+      <dd>comps.py, unmodified.<small>The one the back-test scored.</small></dd>
+      <dt>the same listings</dt>
+      <dd>903 cached rows.<small>Asking prices, not sales.</small></dd>
+      <dt>what to look at</dt>
+      <dd>The width, and the ten.<small>A tight number over a mixed bag is a lie.</small></dd>
+    </dl>
+  </div>
+</section>
 
 <section class="gut" id="sec-error">
   <div class="eyebrow">Figure 1</div>
@@ -216,7 +282,9 @@
   </span>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
 <script src="app.js"></script>
+<script src="estimate.js"></script>
 <script src="nav.js"></script>
 </body>
 </html>

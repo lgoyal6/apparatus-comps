@@ -183,3 +183,18 @@ html { scroll-padding-top: 96px; }
   html { scroll-behavior: auto; }
   .tabs a, .navlinks a { transition: none; }
 }
+
+/* The truck form: eight fields, which is what a listing actually gives you. */
+.truck-form { padding: 14px 16px; border-top: 1px solid var(--hair); display: grid; gap: 12px; }
+.row4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); gap: 12px; }
+.truck-form label { display: block; font: 11px/1.6 var(--mono); letter-spacing: .09em;
+  text-transform: uppercase; color: var(--faint); }
+.truck-form input, .truck-form select {
+  display: block; width: 100%; margin-top: 5px; background: var(--paper); color: var(--ink);
+  border: 1px solid var(--hair); padding: 9px 10px; font: 15px/1.4 var(--serif);
+  text-transform: none; letter-spacing: 0; min-height: 40px;
+}
+.truck-form input:focus, .truck-form select:focus { outline: 2px solid var(--ox); outline-offset: -2px; }
+#comps td.num { font-variant-numeric: tabular-nums; }
+#comps td.title { color: var(--ink); }
+.readout dd.wide { color: var(--bad); }
